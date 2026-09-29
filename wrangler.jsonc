@@ -9,6 +9,9 @@
       "/api/*"
     ]
   },
+  "triggers": {
+    "crons": ["17 */12 * * *"]
+  },
   "observability": {
     "enabled": true
   },

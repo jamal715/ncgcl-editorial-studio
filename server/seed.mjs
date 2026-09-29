@@ -20,10 +20,8 @@ export const seed={
  {id:'presentation',name:'PowerPoint presentation',description:'A branded slide deck.',formats:['PowerPoint (.pptx)','PDF'],active:true,rules:'Use 16:9 widescreen. Apply a consistent NCGCL title slide and content-slide system with safe margins, approved logo placement and slide numbering. Prefer titles around 28–36 pt and body around 18–24 pt; increase slide count rather than shrinking text. Use blue-led charts, green emphasis, concise captions and source lines. Use editable native elements where practical. The main prompt controls narrative, tone and slide count.',extra:''}
  ],
  assets:[
- {id:'logo-colour',name:'NCGCL colour logo',kind:'Logo',url:'/assets/ncgcl-logo.png',scope:'all',usage:'Use intact on white/light backgrounds.'},
- {id:'logo-white',name:'NCGCL white logo',kind:'Logo',url:'/assets/ncgcl-white-logo.png',scope:'all',usage:'Use intact on suitable dark backgrounds.'},
- {id:'brand-guide',name:'NCGCL Brand Guidelines v5',kind:'Brand guide',url:'/assets/ncgcl-brand-guidelines.pdf',scope:'all',usage:'Authoritative source for NCGCL identity, colours, typography and logo rules.'},
- {id:'benchmark',name:'Energy transition editorial benchmark',kind:'Benchmark',url:'/assets/energy-transition-benchmark.pdf',scope:'research-note',usage:'Reference for hierarchy and exhibit design only; do not copy BCG branding, imagery or text.'},
- {id:'benchmark-concept',name:'Energy transition editorial benchmark',kind:'Benchmark',url:'/assets/energy-transition-benchmark.pdf',scope:'concept-note',usage:'Reference for visual hierarchy and exhibit treatment only. Adapt to a concise concept note; use NCGCL identity and preserve the main brief.'},
- {id:'benchmark-paper',name:'Energy transition editorial benchmark',kind:'Benchmark',url:'/assets/energy-transition-benchmark.pdf',scope:'research-paper',usage:'Reference for report hierarchy and exhibit design only; NCGCL identity takes precedence.'}
+ {id:'logo-colour',name:'NCGCL colour logo',kind:'Logo',url:'/assets/ncgcl-logo.png',scopes:[],formats:[],attach:true,usage:'Use intact on white/light backgrounds.'},
+ {id:'logo-white',name:'NCGCL white logo',kind:'Logo',url:'/assets/ncgcl-white-logo.png',scopes:[],formats:[],attach:false,usage:'Use intact on suitable dark backgrounds.'},
+ {id:'brand-guide',name:'NCGCL Brand Guidelines v5',kind:'Brand guide',url:'/assets/ncgcl-brand-guidelines.pdf',scopes:[],formats:[],attach:false,usage:'Background reference for NCGCL identity, colours, typography and logo rules.'},
+ {id:'benchmark',name:'Energy transition editorial benchmark',kind:'Benchmark',url:'/assets/energy-transition-benchmark.pdf',scopes:['research-note','concept-note','research-paper'],formats:[],attach:false,usage:'Reference for hierarchy and exhibit design only; do not copy BCG branding, imagery or text.'}
  ]};
