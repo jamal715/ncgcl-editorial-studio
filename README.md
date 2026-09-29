@@ -66,7 +66,11 @@ Choose a Supabase project. A separate project makes ownership, quotas and backup
 
 For this connected project, the schema is already installed. For a fresh deployment to a different project, run `supabase/schema.sql` in that project's SQL editor. It creates three tables, rate-limit/password functions and the `ncgcl-studio-assets` public bucket. It enables row-level security and grants no anonymous/authenticated table access. Only the server service role accesses records or writes files.
 
-Keep the project URL and the **legacy service_role key** ready in your private hosting settings. This adapter currently uses that JWT key, rather than Supabase's newer secret-key format, for the server's Authorization header. Never expose it to the browser or place it in public JavaScript.
+Use a Supabase **secret key** (`sb_secret_...`) from Settings → API Keys. Store it under the existing environment variable name `SUPABASE_SERVICE_ROLE_KEY`; the adapter supports both modern secret keys and legacy service_role JWTs. Never expose either key to the browser or public JavaScript.
+
+In Cloudflare → Worker → Settings, add both `SUPABASE_SERVICE_ROLE_KEY` and `SETUP_TOKEN` as **Secret** entries under **Runtime variables and secrets → Production**, alongside the preconfigured `SUPABASE_URL`. Click Deploy in that editor to apply them. Entries under **Builds → Variables and secrets** are only available during builds and do not connect the running studio.
+
+If a key is exposed, create a replacement and update its runtime secret. Creating a new key does not revoke a legacy key: migrate all applications that use the old keys before disabling legacy keys in Supabase Settings → API Keys.
 
 ### 3. Cloudflare
 
