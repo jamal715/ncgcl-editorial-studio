@@ -1,6 +1,8 @@
 export const FORMATS=['Word (.docx)','HTML','PDF','PowerPoint (.pptx)'];
 // Older saved assets used a single "scope"; newer ones list document types and formats. Empty lists mean "all".
 export function assetTargets(a){const scopes=Array.isArray(a.scopes)?a.scopes:(a.scope&&a.scope!=='all'?[a.scope]:[]);const formats=Array.isArray(a.formats)?a.formats:[];const attach=typeof a.attach==='boolean'?a.attach:['Logo','Template'].includes(a.kind);return {scopes,formats,attach};}
+// Combine entries that point to the same file (e.g. one benchmark listed separately for three document types).
+export function mergeAssets(c){const out=[];let changed=false;for(const a of c.assets){const t=assetTargets(a);const same=out.find(b=>b.url===a.url&&b.kind===a.kind);if(!same){const copy={...a,scopes:[...t.scopes],formats:[...t.formats],attach:t.attach};if('scope' in copy){delete copy.scope;}out.push(copy);continue;}changed=true;same.scopes=same.scopes.length&&t.scopes.length?[...new Set([...same.scopes,...t.scopes])]:[];same.formats=same.formats.length&&t.formats.length?[...new Set([...same.formats,...t.formats])]:[];same.attach=same.attach||t.attach;}c.assets=out;return changed;}
 export function assetsFor(config,typeId,format){return config.assets.filter(a=>{const t=assetTargets(a);return (!t.scopes.length||t.scopes.includes(typeId))&&(!format||!t.formats.length||t.formats.includes(format));});}
 export function makeBlock(config, typeId, details = {}, version = 'draft', origin = '') {
  const type=config.types.find(t=>t.id===typeId);if(!type)throw Error('Choose a document type.');
