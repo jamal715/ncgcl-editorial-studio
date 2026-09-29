@@ -1,0 +1,11 @@
+import {readFile,writeFile,mkdir} from 'node:fs/promises';
+import {createHash} from 'node:crypto';
+import {fileURLToPath} from 'node:url';
+import path from 'node:path';
+const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
+const manifest=JSON.parse(await readFile(path.join(root,'asset-source/manifest.json'),'utf8'));
+const parts=await Promise.all(manifest.parts.map(name=>readFile(path.join(root,'asset-source',name))));
+const bytes=Buffer.concat(parts);
+if(createHash('sha256').update(bytes).digest('hex')!==manifest.sha256)throw Error('Brand guide source checksum mismatch.');
+const target=path.join(root,manifest.output);await mkdir(path.dirname(target),{recursive:true});await writeFile(target,bytes);
+console.log('Brand guide assembled and checksum verified.');

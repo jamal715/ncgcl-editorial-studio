@@ -1,0 +1,10 @@
+node_modules/
+.data/
+.env
+.dev.vars
+.wrangler/
+test-results/
+*.log
+
+# Reconstructed byte-for-byte from the source chunks during build.
+public/assets/ncgcl-brand-guidelines.pdf

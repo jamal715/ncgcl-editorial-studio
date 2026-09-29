@@ -1,0 +1,9 @@
+{
+  "output": "public/assets/ncgcl-brand-guidelines.pdf",
+  "sha256": "1b099f0a94ba82473967a807a4b15f106acb906a4210ddea4bed0abf2b56e5f1",
+  "parts": [
+    "ncgcl-brand-guidelines.part1",
+    "ncgcl-brand-guidelines.part2",
+    "ncgcl-brand-guidelines.part3"
+  ]
+}
