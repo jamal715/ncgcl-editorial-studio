@@ -9,7 +9,7 @@ export async function hashPassword(password,salt=random()){const key=await crypt
 export async function checkPassword(password,record){if(typeof password!=='string'||password.length>200||!record)return false;const candidate=await hashPassword(password,record.salt);let difference=0;for(let i=0;i<candidate.hash.length;i++)difference|=candidate.hash.charCodeAt(i)^record.hash.charCodeAt(i);return difference===0;}
 function passwordCheck(p){if(typeof p!=='string'||p.length<12||p.length>200)fail('Use a password between 12 and 200 characters.');}
 const configKeys=['organisation','headingFont','bodyFont','fontRules','logoRules','pageRules','textRules','exhibitRules','headerText','footerText','footerRules','extra'];
-const guideKeys=['howTo','fileRules','templateRules','finalCheck','staffSteps','helpNote'];
+const guideKeys=['howTo','fileRules','templateRules','benchmarkRules','finalCheck','staffSteps','helpNote'];
 const ID=/^[-a-z0-9]{1,80}$/;const HEX=/^#[a-fA-F0-9]{6}$/;
 const text=(v,max,label)=>{if(typeof v!=='string'||v.length>max)fail(`Check ${label}.`);return v.trim();};
 export function validateConfig(input){

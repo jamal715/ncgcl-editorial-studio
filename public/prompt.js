@@ -10,6 +10,7 @@ export const DEFAULT_GUIDE = {
  howTo:'Apply these institutional design instructions to the document requested in my main prompt. They govern presentation and branding. Preserve my substantive task, analysis, facts, length and requested tone. Do not invent a new outline, impose a length, rewrite approved terms or add promotional text merely to apply the brand. If my formatting instructions conflict with this block, flag the conflict before finalising.',
  fileRules:'I have attached the files listed above to this message. Use the attached copies directly. If any of them is missing, ask me to attach it before producing the file. Never recreate, redraw, recolour or substitute the logo. The backup links may be used only if your tools can download them; confirm the download succeeded and never pretend to have opened a file you could not access. Reference documents guide presentation only; their text, data and examples must not become content for an unrelated task. If this block conflicts with a reference document, this block takes precedence.',
  templateRules:'Build the output from the attached template. Keep its page setup, styles, colours, header/footer and logo placement. Replace its sample content with my content, remove unused sample material, and do not restyle the template. The written rules in this block fill any gaps the template does not cover.',
+ benchmarkRules:'Treat the attached benchmark as the quality bar for this document type. Match its structure, level of detail, exhibit quality and overall presentation, adapted to NCGCL identity. Never copy its facts, figures, names, wording or conclusions; my main prompt supplies all content.',
  finalCheck:'Check logo integrity; headings and fonts; footer and numbering; consistent tables and chart colours; source labels; readable contrast; whitespace; and page/slide overflow. Check short and long sections without forcing a fixed document length. Report missing fonts, assets or unsupported output features. If you cannot create the requested file type, say so rather than claiming a file exists.',
  staffSteps:'Write your own task prompt in ChatGPT, Claude or Gemini.\nPaste the branding instructions after it.\nAttach the logo and any template listed on this page to the same message, then send.',
  helpNote:'Questions about the NCGCL standard? Contact the communications editor.'
@@ -44,7 +45,7 @@ export function makeBlock(input, typeId, details = {}, version = 'draft', origin
  const type=config.types.find(t=>t.id===typeId);if(!type)throw Error('Choose a document type.');
  const formatId=details.format&&type.formats.includes(details.format)?details.format:type.formats[0];
  const format=config.formats.find(f=>f.id===formatId)||{id:formatId,name:formatId,rules:''};
- const assets=assetsFor(config,type.id,format.id);const attached=assets.filter(a=>assetTargets(a).attach);const template=attached.find(a=>a.kind==='Template');
+ const assets=assetsFor(config,type.id,format.id);const attached=assets.filter(a=>assetTargets(a).attach);const template=attached.find(a=>a.kind==='Template');const benchmarks=attached.filter(a=>a.kind==='Benchmark');
  const absolute=url=>new URL(url,origin||'https://your-studio.example').href;
  const metadata=[['Document title',details.title],['Author / team',details.author],['Date',details.date],['Confidentiality label',details.classification]].filter(([,v])=>v?.trim()).map(([k,v])=>`${k}: ${v.trim()}`).join('\n');
  const section=(title,body)=>body&&String(body).trim()?`\n\n${title}\n${String(body).trim()}`:'';
@@ -65,6 +66,7 @@ Output format: ${format.name}`
  +section('DOCUMENT DETAILS',metadata)
  +section('FILES ATTACHED TO THIS MESSAGE',attached.length?attached.map((a,i)=>`${i+1}. ${a.name} [${a.kind}]\n   Use: ${a.usage}`).join('\n'):'No attachments are required for this document type and format.')
  +(template?section('TEMPLATE',`Template to use: "${template.name}".\n${g.templateRules}`):'')
+ +(benchmarks.length?section('BENCHMARK',`${benchmarks.length>1?'Benchmark examples':'Benchmark example'} to follow: ${benchmarks.map(b=>`"${b.name}"`).join(', ')}.\n${g.benchmarkRules}`):'')
  +section('BACKUP LINKS',assets.length?assets.map((a,i)=>`${i+1}. ${a.name} [${a.kind}]: ${absolute(a.url)}${assetTargets(a).attach?'':`\n   Use: ${a.usage}`}`).join('\n'):'No files are assigned.')
  +(attached.length||assets.length?section('USING THE FILES',g.fileRules):'')
  +section('FINAL PRESENTATION CHECK',g.finalCheck)
